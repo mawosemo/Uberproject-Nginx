@@ -26,6 +26,7 @@ describe 'Nginx::default' do
   it 'should be start nginx'do
     expect(chef_run).to start_service "nginx"
   end
+  # created a symlink an put files in sites available so that the files are running but runnig in the back ground where no un authorised person can access these files
   it 'should create a proxy.conf template in /etc/nginx/sites-available' do
     expect(chef_run).to create_template("/etc/nginx/sites-available/proxy.conf").with_variables(proxy_port: 3000)
     end
