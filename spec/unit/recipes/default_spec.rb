@@ -26,4 +26,13 @@ describe 'Nginx::default' do
   it 'should be start nginx'do
     expect(chef_run).to start_service "nginx"
   end
+  it 'should create a proxy.conf template in /etc/nginx/sites-available' do
+    expect(chef_run).to create_template("/etc/nginx/sites-available/proxy.conf").with_variables(proxy_port: 3000)
+    end
+  it 'should create a symlink of proxy.conf from sites-availableto sites-enabled' do
+    expect(chef_run).to create_link("/etc/nginx/sites-enabled/proxy.conf").with_link_type(:symbolic)#creates a symbolic link from sites- available to sites - be_enabled
+  end
+  it 'should delete the symlink from the default config in sites-enabled ' do
+    expect(chef_run).to delete_link('/etc/nginx/sites-enabled/default')
+  end
 end
