@@ -14,3 +14,10 @@ end
 describe port(80), :skip do
   it { should_not be_listening }
 end
+describe service ('nginx') do
+  it { should be_running }
+  it { should be_enabled }
+end
+describe http('http://localhost', enable_remote_worker: true) do
+  its('status'){ should cmp 502 } # we asking for the status of our requesrt to test if the proxy is working
+end
